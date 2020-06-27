@@ -1,0 +1,63 @@
+browser:
+  monitored:
+    - name: LOCAL
+      monitorFrequency: "0/15 * * * * ?"
+      hostname: 127.0.0.1
+      port: 1414
+      queueManager: QM1
+      channel: DEV.ADMIN.SVRCONN
+      userName: admin
+      password: passw0rd
+      transportType: 1
+      thresholds:
+        - name: More than 3 messages on queue
+          destinationName: DEV.QUEUE.1
+          mqPropertyName: MQIA_CURRENT_Q_DEPTH
+          condition: GREATER_THAN
+          value: 1
+        - name: More than a messages on queue
+          destinationName: DEV.QUEUE.2
+          mqPropertyName: MQIA_CURRENT_Q_DEPTH
+          condition: GREATER_THAN
+          value: 1
+      multiThreshold:
+        - name: Two minutes elapsed without get after message was put
+          first:
+            name: Last Get was more than two minutes ago
+            destinationName: DEV.QUEUE.2
+            mqPropertyName: MQCACF_LAST_GET_TIME
+            condition: GREATER_THAN
+            value: 2
+            timeUnit: MINUTES
+          operand: AND
+          second:
+            name: Last Put time was more than one minute ago
+            destinationName: DEV.QUEUE.2
+            mqPropertyName: MQCACF_LAST_PUT_DATE
+            condition: GREATER_THAN
+            value: 1
+            timeUnit: MINUTES
+
+    - name: SOME
+      monitorFrequency: none
+      hostname: OTHER
+      port: 1816
+      queueManager: OTHER
+      channel: OTHER
+      userName: sss
+      password: ffff!
+      transportType: 1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+logging:
+  level:
+    za.co.kemtech: trace
+spring:
+  boot:
+    admin:
+      client:
+        url: "http://localhost:8080"
