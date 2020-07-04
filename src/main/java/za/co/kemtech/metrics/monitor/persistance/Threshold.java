@@ -1,6 +1,7 @@
 package za.co.kemtech.metrics.monitor.persistance;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static javax.persistence.GenerationType.SEQUENCE;
-
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Getter

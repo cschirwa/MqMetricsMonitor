@@ -1,9 +1,10 @@
-package za.co.kemtech.metrics.monitor.model;
+package za.co.kemtech.metrics.monitor.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import za.co.kemtech.metrics.monitor.model.Condition;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Threshold {
     private String uuid;
     private String name;
@@ -18,6 +20,10 @@ public class Threshold {
     private String mqPropertyName;
     private Condition condition;
     private TimeUnit timeUnit;
-    private Long value;
+    private long value;
 
+    public boolean isTime() {
+        return timeUnit != null;
+    }
 }
+

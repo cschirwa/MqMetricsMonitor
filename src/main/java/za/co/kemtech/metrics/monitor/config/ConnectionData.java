@@ -1,5 +1,11 @@
 package za.co.kemtech.metrics.monitor.config;
 
+import com.ibm.mq.MQC;
+import com.ibm.mq.MQException;
+import com.ibm.mq.MQQueueManager;
+import com.ibm.mq.headers.MQDataException;
+import com.ibm.mq.headers.pcf.PCFMessageAgent;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +26,7 @@ public class ConnectionData {
     public ConnectionData(MqConnectionProperties properties) {
         this.properties = properties;
     }
-    public PCFMessageAgent createAgent(){
+    public PCFMessageAgent createAgent() throws MQException, MQDataException {
         if(queueManager==null || !queueManager.isConnected()){
             log.info("Created connection to {}", properties.getQueueManager());
             final Hashtable<String, Object> mqProps = new Hashtable<>();
@@ -33,5 +39,6 @@ public class ConnectionData {
             queueManager = new MQQueueManager(properties.getQueueManager(), mqProps);
 
         }
+        return new PCFMessageAgent(queueManager);
     }
 }

@@ -32,9 +32,10 @@ public class ConnectionRepository {
     }
 
     public void addConnectionData(final ConnectionData connectionData) {
-        final QueueManager queueManager = queueManagerRepository.save(new QueueManager(connectionData));
-        connectionData.getProperties().getThresholds().forEach(threshold -> thresholdRepository.save(new Threshold(queueManager, threshold)));
-
+//        final QueueManager queueManager = queueManagerRepository.save(new QueueManager(connectionData));
+//        connectionData.getProperties()
+//                .getThresholds()
+//                .forEach(threshold -> thresholdRepository.save(new Threshold(queueManager, threshold)));
     }
 
     public List<QueueManager> findAll() {
@@ -44,7 +45,7 @@ public class ConnectionRepository {
     public void recordBreach(final ConnectionData connectionData, final Queue queue) {
         if (queue.inBreach()) {
             queue.getBreaches().forEach(breach -> {
-                final Threshold threshold = thresholdRepository.findByUuid(breach.getThreshold().getUuid());
+                final za.co.kemtech.metrics.monitor.model.Threshold threshold = thresholdRepository.findByUuid(breach.getThreshold().getUuid());
                 breachRepository.save(new Breach(queue.getName(), threshold, breach.getActualValue()));
                 log.info("Recorded breach {}", queue.getBreaches());
             });
